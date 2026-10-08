@@ -72,7 +72,7 @@
     li.className = 'cat';
     li.dataset.cat = cat.id;
     li.innerHTML =
-      '<h3><button type="button" class="cat-btn" aria-expanded="false"><span class="cat-name"></span><span class="cat-plus"><span>view services</span><i aria-hidden="true">+</i></span></button></h3>' +
+      '<h3><button type="button" class="cat-btn" aria-expanded="false"><span class="cat-name"></span><span class="cat-plus" aria-hidden="true"><span>view services</span><i>+</i></span></button></h3>' +
       '<div class="cat-panel" role="region"><div><div class="cat-inner"><div><p class="blurb"></p><img class="cat-thumb" alt="" loading="lazy" width="150" height="188"></div><ul class="svc-list"></ul></div></div></div>';
     var btn = li.querySelector('.cat-btn');
     var panel = li.querySelector('.cat-panel');
