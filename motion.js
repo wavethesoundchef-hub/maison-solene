@@ -286,7 +286,7 @@
           floats.forEach(function (f) {
             var b = f.getBoundingClientRect();
             var over = rects.some(function (r) { return !(b.right < r.left - 12 || b.left > r.right + 12 || b.bottom < r.top - 12 || b.top > r.bottom + 12); });
-            var want = over ? 0.18 : 1;
+            var want = over ? 0.3 : 1;
             if (f._want !== want) { f._want = want; gsap.to(f, { opacity: want, duration: 0.45, ease: 'power2.out', overwrite: 'auto' }); }
           });
         }
