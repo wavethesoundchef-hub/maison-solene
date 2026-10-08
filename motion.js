@@ -314,7 +314,7 @@
       onEnter: function (b) { gsap.to(b, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08 }); }
     });
 
-    /* Service preview photo. Desktop: appears while the cursor rests on a category name and follows it.
+    /* Service preview photo. Desktop: stays while the cursor is on a category name and follows it; fades when the cursor leaves or the page scrolls.
        Touch: pops in beside the tapped category, then fades out by itself. Always clears on scroll. */
     var hi = document.getElementById('hoverImg');
     var himg = hi.querySelector('img');
@@ -348,14 +348,10 @@
       menu.querySelectorAll('.cat-btn').forEach(function (b) {
         b.addEventListener('mouseenter', function () { hoverBtn = b; showPreview(b); });
         b.addEventListener('mouseleave', function () { hoverBtn = null; hidePreview(); });
-        b.addEventListener('click', hidePreview);
       });
       menu.addEventListener('mousemove', function (e) {
         qx(e.clientX + 190); qy(e.clientY);
-        if (!hoverBtn) return;
-        if (!shown) showPreview(hoverBtn);              // cursor moved again after a scroll or pause
-        clearTimeout(idleT);
-        idleT = setTimeout(hidePreview, 1400);           // cursor parked: fade out softly
+        if (hoverBtn && !shown) showPreview(hoverBtn);   // cursor moved again after a scroll
       });
     } else {
       menu.querySelectorAll('.cat-btn').forEach(function (b) {
