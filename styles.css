@@ -430,3 +430,11 @@ h2 em,.tagline em{font-weight:500}
   .nav a{font-weight:inherit}
 }
 @media (prefers-reduced-motion:reduce){.marquee-track{animation:none}}
+
+/* ONE colour grade for every photo: a warm, slightly muted rose-plum treatment so mixed stock imagery reads as a single shoot */
+:root{--grade:grayscale(.35) sepia(.22) hue-rotate(-12deg) saturate(1.12) contrast(1.04) brightness(1.02)}
+.float img,.fv-inner img,.thumb,.cat-thumb,.hover-img img{filter:var(--grade)}
+.float,.fv-art,.thumb-wrap,.hover-img{isolation:isolate}
+.float::after,.fv-art::after,.thumb-wrap::after,.hover-img::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(232,201,204,.22) 0%,rgba(201,138,150,.10) 45%,rgba(67,32,60,.30) 100%);mix-blend-mode:multiply}
+.float figcaption,.fv-art figcaption{z-index:2}
+.cat-thumb{position:relative}
