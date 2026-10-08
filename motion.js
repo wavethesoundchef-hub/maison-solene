@@ -314,24 +314,46 @@
       onEnter: function (b) { gsap.to(b, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08 }); }
     });
 
-    /* Service hover image follows the cursor */
+    /* Service preview: appears only while the cursor rests on a category name, then fades away.
+       It also clears itself on scroll, on click and after a short pause, so it never lingers over the list. */
     if (fine) {
       var hi = document.getElementById('hoverImg');
       var himg = hi.querySelector('img');
-      gsap.set(hi, { xPercent: -50, yPercent: -50, scale: 0.6, opacity: 0 });
+      gsap.set(hi, { xPercent: -50, yPercent: -50, scale: 0.85, opacity: 0 });
       var qx = gsap.quickTo(hi, 'x', { duration: 0.6, ease: 'power3' });
       var qy = gsap.quickTo(hi, 'y', { duration: 0.6, ease: 'power3' });
       var urls = {};
       (window.MS_MENU || []).forEach(function (c) { urls[c.id] = c.art; var i = new Image(); i.src = c.art; });
       var menu = document.getElementById('menu');
-      menu.addEventListener('mousemove', function (e) { qx(e.clientX + 190); qy(e.clientY); });
+      var shown = false, idleT = null, hoverBtn = null;
+
+      function showPreview(btn) {
+        var src = urls[btn.closest('.cat').dataset.cat] || '';
+        if (himg.getAttribute('src') !== src) himg.setAttribute('src', src);
+        shown = true;
+        gsap.to(hi, { opacity: 1, scale: 1, duration: 0.7, ease: 'expo.out', overwrite: 'auto' });
+      }
+      function hidePreview() {
+        clearTimeout(idleT);
+        if (!shown) return;
+        shown = false;
+        gsap.to(hi, { opacity: 0, scale: 0.9, duration: 0.7, ease: 'power2.out', overwrite: 'auto' });
+      }
+
       menu.querySelectorAll('.cat-btn').forEach(function (b) {
-        b.addEventListener('mouseenter', function () {
-          himg.src = urls[b.closest('.cat').dataset.cat] || '';
-          gsap.to(hi, { opacity: 1, scale: 1, duration: 0.6, ease: 'expo.out', overwrite: 'auto' });
-        });
+        b.addEventListener('mouseenter', function () { hoverBtn = b; showPreview(b); });
+        b.addEventListener('mouseleave', function () { hoverBtn = null; hidePreview(); });
+        b.addEventListener('click', hidePreview);
       });
-      menu.addEventListener('mouseleave', function () { gsap.to(hi, { opacity: 0, scale: 0.6, duration: 0.5, ease: 'power3.out', overwrite: 'auto' }); });
+      menu.addEventListener('mousemove', function (e) {
+        qx(e.clientX + 190); qy(e.clientY);
+        if (!hoverBtn) return;
+        if (!shown) showPreview(hoverBtn);              // cursor moved again after a scroll or pause
+        clearTimeout(idleT);
+        idleT = setTimeout(hidePreview, 1400);           // cursor parked: fade out softly
+      });
+      window.addEventListener('scroll', hidePreview, { passive: true });
+      window.addEventListener('wheel', hidePreview, { passive: true });
     }
 
 
