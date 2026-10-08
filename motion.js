@@ -294,7 +294,7 @@
     });
 
     /* Soft rise for everything else */
-    var rise = '.head .mono,.sample-tag,.pillars li,.cat,.fv-lead,.fv-list li,.fv-price,.fv-copy .arrow-link,.enquire-note,#enquiry,.articles article .mono,.articles article h3,.articles article > p:last-child,.quote figcaption,.visit-grid > div,.site-footer > *';
+    var rise = '.head .mono,.sample-tag,.pillars li,.cat,.fv-lead,.fv-list li,.fv-price,.fv-copy .arrow-link,.enquire-note,#enquiry,.articles article .mono,.articles article h3,.articles article > p:last-child,.visit-grid > div,.site-footer > *';
     gsap.set(rise, { opacity: 0, y: 36 });
     ScrollTrigger.batch(rise, {
       start: 'top 92%', once: true,
@@ -320,6 +320,25 @@
       });
       menu.addEventListener('mouseleave', function () { gsap.to(hi, { opacity: 0, scale: 0.6, duration: 0.5, ease: 'power3.out', overwrite: 'auto' }); });
     }
+
+
+    /* Guest book: score counts up, bars fill, filtered reviews re-enter */
+    var score = document.getElementById('gbScore');
+    if (score) {
+      var obj = { v: 0 };
+      ScrollTrigger.create({
+        trigger: '.gb-summary', start: 'top 80%', once: true,
+        onEnter: function () {
+          gsap.to(obj, { v: 4.9, duration: 1.8, ease: 'expo.out', onUpdate: function () { score.textContent = obj.v.toFixed(1); } });
+          gsap.fromTo('.gb-bars i', { '--k': 0 }, { '--k': 1, duration: 1.4, ease: 'expo.out', stagger: 0.08 });
+        }
+      });
+      gsap.set('.gb-bars i', { '--k': 0 });
+    }
+    document.addEventListener('ms:filtered', function () {
+      var shown = document.querySelectorAll('.review:not([hidden])');
+      gsap.fromTo(shown, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out', stagger: 0.07, overwrite: true });
+    });
 
     ScrollTrigger.refresh();
   }

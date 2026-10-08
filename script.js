@@ -256,4 +256,21 @@
       done(false);
     }
   });
+
+  // ----- Guest book filter
+  var chips = document.querySelectorAll('.chip');
+  var reviews = document.querySelectorAll('.review');
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var f = chip.getAttribute('data-filter');
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+      reviews.forEach(function (r) {
+        var show = f === 'all' || r.getAttribute('data-cat') === f;
+        r.hidden = !show;
+        if (show) { r.style.opacity = ''; r.style.transform = ''; }
+      });
+      document.dispatchEvent(new CustomEvent('ms:filtered'));
+      document.dispatchEvent(new Event('ms:layout'));
+    });
+  });
 })();

@@ -41,7 +41,7 @@
       <span class="sr-only">salon and spa</span>
     </h1>
     <div class="hero-foot">
-      <p class="tagline">quiet rooms.<br>considered beauty.</p>
+      <p class="tagline">beauty,<br><em>taken slowly.</em></p>
       <div class="hero-side">
         <p class="lede">A salon and spa designed around unhurried time, honest consultation and results that look like you on your best day.</p>
         <a class="arrow-link" href="#enquire">request an appointment <span aria-hidden="true">→</span></a>
@@ -54,14 +54,14 @@
   <!-- APPROACH -->
   <section class="approach" id="approach" data-theme="light" aria-labelledby="approach-label">
     <p class="mono" id="approach-label">our approach</p>
-    <p class="statement" data-split="scrub">Every visit opens with ten unhurried minutes: what you love, what bothers you, what your week looks like. Then we choose, together, the fewest steps that do the most for you.</p>
+    <p class="statement" data-split="scrub">Every visit starts at the mirror, not the chair. You show us the photos you saved. We tell you what your hair or skin can really do, what it will cost, and how often you will need to come back. Some days the honest answer is a trim and a good conditioner.</p>
     <figure class="float f1" data-speed="0.18"><img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=700&q=80" alt="A calm, dark-walled salon with round mirrors (sample image)" loading="lazy" width="700" height="880"><figcaption>sample imagery</figcaption></figure>
     <figure class="float f2" data-speed="-0.12"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80" alt="Guest during a clay-mask facial (sample image)" loading="lazy" width="600" height="760"><figcaption>sample imagery</figcaption></figure>
     <figure class="float f3" data-speed="0.1"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=600&q=80" alt="Hand with dark manicured nails (sample image)" loading="lazy" width="600" height="760"><figcaption>sample imagery</figcaption></figure>
     <ul class="pillars">
-      <li><span class="mono">listen first</span><p>A consultation is part of every service.</p></li>
-      <li><span class="mono">every texture</span><p>Silk press to locs to braids, done with equal craft.</p></li>
-      <li><span class="mono">unhurried</span><p>Appointments are timed so no one is rushed.</p></li>
+      <li><span class="mono">ten minutes, first</span><p>Every service opens with a consultation at the mirror. It is never billed and never rushed.</p></li>
+      <li><span class="mono">price before you sit</span><p>Each service lists its cost and its time. If your hair needs more of either, we tell you before we start.</p></li>
+      <li><span class="mono">booked at real length</span><p>Silk presses, locs, braids and natural curls get the hours they actually take, with stylists who work on them daily.</p></li>
     </ul>
   </section>
 
@@ -97,24 +97,74 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="testimonials" data-theme="light" aria-labelledby="t-title">
+  <!-- GUEST BOOK -->
+  <section class="guestbook" id="guestbook" data-theme="light" aria-labelledby="t-title">
     <div class="head">
-      <p class="mono" id="t-title">kind words</p>
-      <p class="sample-tag">Sample testimonials written for this concept. They are not real reviews.</p>
+      <p class="mono">kind words</p>
+      <h2 id="t-title" data-split="words">the <em>guest book</em></h2>
+      <p class="sample-tag">Sample reviews and ratings written for this concept. They are not real guests or real data.</p>
     </div>
-    <figure class="quote">
-      <blockquote data-split="scrub">First time a stylist actually asked how I wash my hair at home. My silk press lasted two full weeks.</blockquote>
-      <figcaption>Adaeze O. <span>sample guest · silk press</span></figcaption>
-    </figure>
-    <figure class="quote q2">
-      <blockquote data-split="scrub">The facial felt like switching off my phone for an hour. My skin has never looked this even.</blockquote>
-      <figcaption>Tomi A. <span>sample guest · custom facial</span></figcaption>
-    </figure>
-    <figure class="quote">
-      <blockquote data-split="scrub">They planned my bridal trial, my day-of timeline and my mother’s makeup. I just showed up and smiled.</blockquote>
-      <figcaption>Chioma E. <span>sample guest · bridal package</span></figcaption>
-    </figure>
+    <div class="gb-grid">
+      <aside class="gb-summary" aria-label="Rating summary (sample)">
+        <p class="gb-score"><span id="gbScore">4.9</span><small>/ 5</small></p>
+        <p class="gb-stars" aria-hidden="true">★★★★★</p>
+        <p class="gb-count">from 1,284 sample reviews</p>
+        <ul class="gb-bars" aria-label="Rating distribution">
+          <li><span>5</span><i style="--w:91%"></i><b>91%</b></li>
+          <li><span>4</span><i style="--w:7%"></i><b>7%</b></li>
+          <li><span>3</span><i style="--w:1%"></i><b>1%</b></li>
+          <li><span>2</span><i style="--w:1%"></i><b>1%</b></li>
+          <li><span>1</span><i style="--w:0%"></i><b>0%</b></li>
+        </ul>
+        <p class="gb-rec"><b>98%</b> would book again</p>
+        <p class="mono gb-filter-label" id="gbFilterLabel">filter by service</p>
+        <div class="gb-chips" role="group" aria-labelledby="gbFilterLabel">
+          <button type="button" class="chip" data-filter="all" aria-pressed="true">all</button>
+          <button type="button" class="chip" data-filter="hair" aria-pressed="false">hair</button>
+          <button type="button" class="chip" data-filter="skin" aria-pressed="false">skin</button>
+          <button type="button" class="chip" data-filter="nails" aria-pressed="false">nails</button>
+          <button type="button" class="chip" data-filter="body" aria-pressed="false">body</button>
+          <button type="button" class="chip" data-filter="brows" aria-pressed="false">brows &amp; lashes</button>
+          <button type="button" class="chip" data-filter="bridal" aria-pressed="false">bridal</button>
+        </div>
+      </aside>
+
+      <ol class="gb-list" id="gbList">
+        <li class="review" data-cat="hair">
+          <header><span class="mono">hair · silk press</span><span class="gb-meta"><span class="gb-rate" role="img" aria-label="5 out of 5">★★★★★</span><span class="mono">sep 2026</span></span></header>
+          <blockquote>She asked how I wash my hair at home before she picked up a comb. The press held for two full weeks, even through Lagos humidity.</blockquote>
+          <footer><span class="who"><i aria-hidden="true">A</i>Adaeze O.</span><span class="mono verified">visit confirmed · sample</span></footer>
+          <p class="reply"><b>Maison Solène replied</b> Thank you, Adaeze. For humid weeks we book your next press at ten days, not fourteen. It is already in your notes.</p>
+        </li>
+        <li class="review" data-cat="skin">
+          <header><span class="mono">skin · custom facial</span><span class="gb-meta"><span class="gb-rate" role="img" aria-label="5 out of 5">★★★★★</span><span class="mono">aug 2026</span></span></header>
+          <blockquote>Forty minutes in, I stopped checking my phone. My skin looks calmer, not done. She told me which two products to drop, not which six to buy.</blockquote>
+          <footer><span class="who"><i aria-hidden="true">T</i>Tomi A.</span><span class="mono verified">visit confirmed · sample</span></footer>
+        </li>
+        <li class="review" data-cat="bridal">
+          <header><span class="mono">bridal · trial and day</span><span class="gb-meta"><span class="gb-rate" role="img" aria-label="5 out of 5">★★★★★</span><span class="mono">sep 2026</span></span></header>
+          <blockquote>Trial, timeline, my mother’s makeup: one plan, sent the week before. On the day nobody asked me the same question twice.</blockquote>
+          <footer><span class="who"><i aria-hidden="true">C</i>Chioma E.</span><span class="mono verified">visit confirmed · sample</span></footer>
+          <p class="reply"><b>Maison Solène replied</b> Congratulations again, Chioma. We kept the timeline on file in case your family wants the same team for the traditional wedding.</p>
+        </li>
+        <li class="review" data-cat="nails">
+          <header><span class="mono">nails · gel</span><span class="gb-meta"><span class="gb-rate" role="img" aria-label="4 out of 5">★★★★<span class="off">★</span></span><span class="mono">oct 2026</span></span></header>
+          <blockquote>Gel lasted three weeks with no lifting. One note: Saturday afternoons run late, so book a morning.</blockquote>
+          <footer><span class="who"><i aria-hidden="true">I</i>Ifeoma K.</span><span class="mono verified">visit confirmed · sample</span></footer>
+          <p class="reply"><b>Maison Solène replied</b> Fair point, and thank you. We now hold a fifteen-minute buffer between Saturday appointments.</p>
+        </li>
+        <li class="review" data-cat="body">
+          <header><span class="mono">body · massage</span><span class="gb-meta"><span class="gb-rate" role="img" aria-label="5 out of 5">★★★★★</span><span class="mono">jul 2026</span></span></header>
+          <blockquote>The pressure was right without me saying a word. I walked out slower than I walked in, which was the whole point.</blockquote>
+          <footer><span class="who"><i aria-hidden="true">B</i>Bola S.</span><span class="mono verified">visit confirmed · sample</span></footer>
+        </li>
+        <li class="review" data-cat="brows">
+          <header><span class="mono">brows &amp; lashes · lash lift</span><span class="gb-meta"><span class="gb-rate" role="img" aria-label="5 out of 5">★★★★★</span><span class="mono">aug 2026</span></span></header>
+          <blockquote>She mapped my brows before touching them and showed me the shape in the mirror. The lash lift still looks natural a month on.</blockquote>
+          <footer><span class="who"><i aria-hidden="true">Z</i>Zainab M.</span><span class="mono verified">visit confirmed · sample</span></footer>
+        </li>
+      </ol>
+    </div>
   </section>
 
   <!-- JOURNAL -->
