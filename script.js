@@ -257,6 +257,16 @@
     }
   });
 
+  // ----- Review carousel arrows
+  var gbList = document.getElementById('gbList');
+  function gbStep(dir) {
+    var card = gbList.querySelector('.review:not([hidden])');
+    if (!card) return;
+    gbList.scrollBy({ left: dir * (card.offsetWidth + 18), behavior: 'smooth' });
+  }
+  document.getElementById('gbPrev').addEventListener('click', function () { gbStep(-1); });
+  document.getElementById('gbNext').addEventListener('click', function () { gbStep(1); });
+
   // ----- Guest book filter
   var chips = document.querySelectorAll('.chip');
   var reviews = document.querySelectorAll('.review');
