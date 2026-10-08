@@ -314,32 +314,37 @@
       onEnter: function (b) { gsap.to(b, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08 }); }
     });
 
-    /* Service preview: appears only while the cursor rests on a category name, then fades away.
-       It also clears itself on scroll, on click and after a short pause, so it never lingers over the list. */
+    /* Service preview photo. Desktop: appears while the cursor rests on a category name and follows it.
+       Touch: pops in beside the tapped category, then fades out by itself. Always clears on scroll. */
+    var hi = document.getElementById('hoverImg');
+    var himg = hi.querySelector('img');
+    gsap.set(hi, { xPercent: -50, yPercent: -50, scale: 0.85, opacity: 0 });
+    var urls = {};
+    (window.MS_MENU || []).forEach(function (c) { urls[c.id] = c.art; var i = new Image(); i.src = c.art; });
+    var menu = document.getElementById('menu');
+    var shown = false, idleT = null, hoverBtn = null, touchT = null;
+
+    function setPreviewSrc(btn) {
+      var src = urls[btn.closest('.cat').dataset.cat] || '';
+      if (himg.getAttribute('src') !== src) himg.setAttribute('src', src);
+    }
+    function showPreview(btn) {
+      setPreviewSrc(btn);
+      shown = true;
+      gsap.to(hi, { opacity: 1, scale: 1, duration: 0.7, ease: 'expo.out', overwrite: 'auto' });
+    }
+    function hidePreview() {
+      clearTimeout(idleT); clearTimeout(touchT);
+      if (!shown) return;
+      shown = false;
+      gsap.to(hi, { opacity: 0, scale: 0.9, duration: 0.7, ease: 'power2.out', overwrite: 'auto' });
+    }
+    window.addEventListener('scroll', hidePreview, { passive: true });
+    window.addEventListener('wheel', hidePreview, { passive: true });
+
     if (fine) {
-      var hi = document.getElementById('hoverImg');
-      var himg = hi.querySelector('img');
-      gsap.set(hi, { xPercent: -50, yPercent: -50, scale: 0.85, opacity: 0 });
       var qx = gsap.quickTo(hi, 'x', { duration: 0.6, ease: 'power3' });
       var qy = gsap.quickTo(hi, 'y', { duration: 0.6, ease: 'power3' });
-      var urls = {};
-      (window.MS_MENU || []).forEach(function (c) { urls[c.id] = c.art; var i = new Image(); i.src = c.art; });
-      var menu = document.getElementById('menu');
-      var shown = false, idleT = null, hoverBtn = null;
-
-      function showPreview(btn) {
-        var src = urls[btn.closest('.cat').dataset.cat] || '';
-        if (himg.getAttribute('src') !== src) himg.setAttribute('src', src);
-        shown = true;
-        gsap.to(hi, { opacity: 1, scale: 1, duration: 0.7, ease: 'expo.out', overwrite: 'auto' });
-      }
-      function hidePreview() {
-        clearTimeout(idleT);
-        if (!shown) return;
-        shown = false;
-        gsap.to(hi, { opacity: 0, scale: 0.9, duration: 0.7, ease: 'power2.out', overwrite: 'auto' });
-      }
-
       menu.querySelectorAll('.cat-btn').forEach(function (b) {
         b.addEventListener('mouseenter', function () { hoverBtn = b; showPreview(b); });
         b.addEventListener('mouseleave', function () { hoverBtn = null; hidePreview(); });
@@ -352,8 +357,17 @@
         clearTimeout(idleT);
         idleT = setTimeout(hidePreview, 1400);           // cursor parked: fade out softly
       });
-      window.addEventListener('scroll', hidePreview, { passive: true });
-      window.addEventListener('wheel', hidePreview, { passive: true });
+    } else {
+      menu.querySelectorAll('.cat-btn').forEach(function (b) {
+        b.addEventListener('click', function () {
+          clearTimeout(touchT);
+          if (b.getAttribute('aria-expanded') !== 'true') { hidePreview(); return; }  // closing a category
+          var r = b.getBoundingClientRect();
+          gsap.set(hi, { x: window.innerWidth * 0.72, y: Math.max(110, Math.min(window.innerHeight - 130, r.top + r.height / 2)) });
+          showPreview(b);
+          touchT = setTimeout(hidePreview, 2000);        // pop in, hold briefly, fade away
+        });
+      });
     }
 
 

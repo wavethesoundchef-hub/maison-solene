@@ -36,7 +36,7 @@
       ['Body wrap', 'Mineral or hydrating wrap.', 35000, '75 min'],
       ['Waxing', 'Face and body, priced by area.', 6000, 'from 15 min']
     ]},
-    { id: 'smile', name: 'smile', blurb: 'Brightening treatments, with a shade guide so results stay natural.', art: '1600948836101-f9ffda59d250', items: [
+    { id: 'smile', name: 'smile', blurb: 'Brightening treatments, with a shade guide so results stay natural.', art: '1654373535457-383a0a4d00f9', items: [
       ['Teeth whitening', 'In-chair whitening, up to several shades brighter.', 45000, '60 min'],
       ['Teeth brightening', 'Gentle stain-lifting top-up treatment.', 25000, '40 min']
     ]},
