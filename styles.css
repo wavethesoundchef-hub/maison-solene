@@ -337,15 +337,19 @@ body.is-dark .fab{background:var(--rose);color:var(--plum)}
   .demo-note{max-width:none}
   .arrow-link:hover span{transform:translateX(8px)}
 
-  .approach{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);grid-template-rows:auto 1fr auto;column-gap:clamp(32px,6vw,110px);padding:clamp(100px,12vw,180px) var(--pad) clamp(80px,9vw,140px)}
+  /* images own the left lane for the whole section and drift freely; all text lives in the right lane, so nothing can ever cover it */
+  .approach{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);grid-template-rows:auto auto 1fr;column-gap:clamp(32px,6vw,110px);align-items:start;padding:clamp(100px,12vw,180px) var(--pad) clamp(80px,9vw,140px)}
   .approach>.mono{grid-column:2;grid-row:1}
-  .statement{grid-column:2;grid-row:2;align-self:start;font-size:clamp(2.2rem,3.6vw,3.9rem);max-width:none;margin:0}
-  .approach-art{grid-column:1;grid-row:1 / span 2;position:relative;margin:0;min-height:clamp(560px,52vw,820px)}
+  .statement{grid-column:2;grid-row:2;font-size:clamp(2.2rem,3.6vw,3.9rem);max-width:none;margin:0}
+  .approach-art{grid-column:1;grid-row:1 / -1;align-self:stretch;position:relative;margin:0;min-height:clamp(980px,78vw,1280px)}
   .float{position:absolute}
-  .f1{width:64%;left:0;top:0}
-  .f2{width:42%;right:0;top:34%}
-  .f3{display:block;width:30%;aspect-ratio:4/5;left:10%;bottom:0;border-radius:14px}
-  .pillars{grid-column:1 / -1;grid-row:3;margin-top:clamp(70px,8vw,120px);gap:clamp(24px,4vw,56px);position:relative}
+  .f1{width:68%;left:0;top:140px}
+  .f2{width:44%;right:0;top:calc(140px + 36%)}
+  .f3{display:block;width:32%;aspect-ratio:4/5;left:12%;bottom:140px;border-radius:14px}
+  .pillars{grid-column:2;grid-row:3;grid-template-columns:1fr;gap:0;margin-top:clamp(50px,6vw,90px);position:relative}
+  .pillars li{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:20px;padding:20px 0;align-items:baseline}
+  .pillars li:last-child{border-bottom:1px solid var(--line)}
+  .pillars p{margin:0;max-width:34ch}
 
   .services{padding:clamp(80px,10vw,150px) 0}
   .cat-btn{padding:clamp(18px,2.4vw,34px) 0}
