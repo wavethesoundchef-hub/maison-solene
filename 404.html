@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found — Maison Solène</title><meta name="robots" content="noindex">
-<link rel="stylesheet" href="/fonts/fonts.css">
+<script>document.write('<link rel="stylesheet" href="'+(location.pathname.indexOf('/maison-solene/')===0?'/maison-solene':'')+'/fonts/fonts.css">')</script>
 <style>html,body{height:100%;margin:0}body{display:grid;place-items:center;background:#2a1226;color:#f7f1e8;font:400 1rem/1.6 "Switzer",system-ui,sans-serif;text-align:center;padding:24px}
 h1{font:700 clamp(3.4rem,16vw,9rem)/.9 "Boska",Georgia,serif;margin:0 0 18px;letter-spacing:-.04em}h1 em{font-style:italic;font-weight:500;color:#e6adb8}
 a{color:#2a1226;background:#e8c9cc;border-radius:99px;padding:14px 28px;text-decoration:none;font-weight:500;display:inline-block;margin-top:14px}a:focus-visible{outline:2px solid #fff;outline-offset:3px}</style></head>
-<body><main><h1>lost <em>your way?</em></h1><p>That page doesn’t exist on this site.</p><a href="/">Back to Maison Solène</a></main></body></html>
+<body><main><h1>lost <em>your way?</em></h1><p>That page doesn’t exist on this site.</p><a id="home" href="/">Back to Maison Solène</a><script>if(location.pathname.indexOf('/maison-solene/')===0)document.getElementById('home').href='/maison-solene/'</script></main></body></html>

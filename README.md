@@ -11,4 +11,4 @@ Open `index.html`, or serve the folder with any static server, e.g. `npx serve`.
 The form builds a `https://wa.me/<number>?text=...` link. The number is set at the top of `script.js` (`WA_NUMBER`, international format without `+`). It is an appointment request only; nothing is booked or confirmed by the site.
 
 ## Deploy
-Netlify: publish directory is the project root (see `netlify.toml`).
+Hosting: GitHub Pages serves the `main` branch root at https://wavethesoundchef-hub.github.io/maison-solene/ . Also deployable on Netlify (`netlify.toml`) or Vercel (`vercel.json`).
