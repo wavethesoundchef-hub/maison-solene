@@ -329,7 +329,7 @@ body.is-dark .fab{background:var(--rose);color:var(--plum)}
 
   .hero{padding:clamp(110px,15vh,150px) var(--pad) 40px}
   .hero-kicker{max-width:none}
-  .hero h1{font-size:clamp(9rem,23.5vw,27rem);line-height:.78;letter-spacing:-.05em;margin-top:2vh}
+  .hero h1{font-size:clamp(8rem,min(23.5vw,33vh),27rem);line-height:.78;letter-spacing:-.05em;margin-top:2vh}
   .hero-foot{grid-template-columns:auto minmax(0,30rem);justify-content:space-between;align-items:end;gap:40px;margin:clamp(30px,6vh,70px) 0 34px}
   .tagline{font-size:clamp(2.6rem,4.6vw,4.8rem)}
   .lede{font-size:clamp(1.05rem,1.3vw,1.25rem)}
