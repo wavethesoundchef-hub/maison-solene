@@ -115,7 +115,8 @@ em{font-style:italic;font-weight:400;color:var(--accent);transition:color .7s}
 .float{position:relative;margin:0;overflow:hidden;border-radius:999px 999px 12px 12px;background:var(--rose-soft)}
 .float img{width:100%;height:100%;object-fit:cover}
 .float figcaption,.fv-art figcaption{position:absolute;left:0;right:0;bottom:12px;text-align:center;font:400 .58rem var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px rgba(42,18,38,.75)}
-.f1{width:62%;aspect-ratio:4/5;margin-top:44px}
+.approach-art{margin-top:40px}
+.f1{width:62%;aspect-ratio:4/5}
 .f2{width:42%;aspect-ratio:4/5;margin:-34% 0 0 auto}
 .f3{display:none}
 .pillars{list-style:none;margin:56px 0 0;padding:0;display:grid;gap:26px}
@@ -336,13 +337,15 @@ body.is-dark .fab{background:var(--rose);color:var(--plum)}
   .demo-note{max-width:none}
   .arrow-link:hover span{transform:translateX(8px)}
 
-  .approach{padding:clamp(100px,16vw,220px) var(--pad) clamp(80px,10vw,160px);min-height:120vh}
-  .statement{font-size:clamp(2.4rem,4.2vw,4.3rem);max-width:19em;margin-left:auto}
+  .approach{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);grid-template-rows:auto 1fr auto;column-gap:clamp(32px,6vw,110px);padding:clamp(100px,12vw,180px) var(--pad) clamp(80px,9vw,140px)}
+  .approach>.mono{grid-column:2;grid-row:1}
+  .statement{grid-column:2;grid-row:2;align-self:start;font-size:clamp(2.2rem,3.6vw,3.9rem);max-width:none;margin:0}
+  .approach-art{grid-column:1;grid-row:1 / span 2;position:relative;margin:0;min-height:clamp(560px,52vw,820px)}
   .float{position:absolute}
-  .f1{width:min(22vw,320px);left:var(--pad);top:clamp(240px,30vw,460px);margin:0}
-  .f2{width:min(15vw,220px);right:calc(var(--pad) + 6vw);top:clamp(420px,52vw,760px);margin:0}
-  .f3{display:block;width:min(12vw,180px);aspect-ratio:4/5;left:38vw;top:clamp(560px,70vw,980px);border-radius:14px}
-  .pillars{margin-top:clamp(260px,30vw,460px);gap:clamp(24px,4vw,56px);position:relative}
+  .f1{width:64%;left:0;top:0}
+  .f2{width:42%;right:0;top:34%}
+  .f3{display:block;width:30%;aspect-ratio:4/5;left:10%;bottom:0;border-radius:14px}
+  .pillars{grid-column:1 / -1;grid-row:3;margin-top:clamp(70px,8vw,120px);gap:clamp(24px,4vw,56px);position:relative}
 
   .services{padding:clamp(80px,10vw,150px) 0}
   .cat-btn{padding:clamp(18px,2.4vw,34px) 0}

@@ -275,7 +275,7 @@
       '(min-width: 901px)': function () {
         document.querySelectorAll('.float').forEach(function (el) {
           var s = parseFloat(el.dataset.speed || 0.1);
-          gsap.fromTo(el, { y: s * 700 }, { y: -s * 700, ease: 'none', scrollTrigger: { trigger: '.approach', start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
+          gsap.fromTo(el, { y: s * 200 }, { y: -s * 200, ease: 'none', scrollTrigger: { trigger: '.approach-art', start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
           gsap.from(el, { clipPath: 'inset(100% 0 0 0)', duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
         });
       }
