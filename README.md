@@ -2,7 +2,7 @@
 
 A portfolio design demo by Jeremiah Anyabuwa. Maison Solène is a fictional brand; all names, prices, hours, contacts and imagery are sample content.
 
-Plain static site (no build step): `index.html`, `styles.css`, `script.js`, and self-hosted fonts in `fonts/`.
+Static site, no build step: `index.html`, `styles.css`, `script.js` (menu + WhatsApp form), `motion.js` (WebGL gradient background, Lenis smooth scroll, GSAP + ScrollTrigger). Libraries are vendored in `vendor/`, fonts in `fonts/`.
 
 ## Run locally
 Open `index.html`, or serve the folder with any static server, e.g. `npx serve`.
