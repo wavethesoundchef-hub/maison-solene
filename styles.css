@@ -46,7 +46,8 @@ em{font-style:italic;font-weight:400;color:var(--accent);transition:color .7s}
 
 /* split-text masks (italic overhang gets a little room) */
 .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .1em .14em 0;margin:0 -.1em -.14em 0}
-.wi{display:inline-block;will-change:transform}
+.wi{display:inline-block}
+.hl .wi{will-change:transform}
 .js [data-split="words"],.js .hl{visibility:hidden}
 .js [data-split="words"].is-split,.js .hl.is-split{visibility:visible}
 
@@ -447,3 +448,14 @@ h2 em,.tagline em{font-weight:500}
 .hover-img{display:block;position:fixed;left:0;top:0;width:min(34vw,210px);aspect-ratio:4/5;border-radius:999px 999px 12px 12px;overflow:hidden;pointer-events:none;z-index:30;opacity:0;will-change:transform,opacity;background:var(--rose-soft)}
 .hover-img img{width:100%;height:100%;object-fit:cover}
 @media (min-width:901px){.hover-img{width:min(20vw,280px)}}
+
+/* LITE MODE (Android and low-memory phones): drop the effects that are expensive to repaint on mid-range GPUs */
+html.lite .bar::before{backdrop-filter:none;-webkit-backdrop-filter:none;background:linear-gradient(var(--barbg),rgba(244,236,226,0))}
+html.lite form,html.lite .review{backdrop-filter:none;-webkit-backdrop-filter:none}
+html.lite .review{background:rgba(255,255,255,.28)}
+html.lite body.is-dark .review{background:rgba(255,255,255,.08)}
+html.lite .float img,html.lite .fv-inner img,html.lite .thumb,html.lite .cat-thumb,html.lite .hover-img img{filter:none}
+html.lite .float::after,html.lite .fv-art::after,html.lite .thumb-wrap::after,html.lite .hover-img::after{mix-blend-mode:normal;background:linear-gradient(180deg,rgba(232,201,204,.20) 0%,rgba(201,138,150,.12) 50%,rgba(67,32,60,.26) 100%)}
+html.lite .thumb,html.lite .fv-inner{will-change:auto}
+html.lite .marquee-track{animation-duration:80s}
+html.lite .brand-mark::after{mix-blend-mode:normal}

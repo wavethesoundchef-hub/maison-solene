@@ -6,6 +6,7 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canAnimate = !reduce && window.gsap && window.ScrollTrigger;
   var fine = window.matchMedia('(hover: hover) and (min-width: 901px)').matches;
+  var lite = document.documentElement.classList.contains('lite');   // Android / low-memory phones
 
   /* ---------- WebGL background ---------- */
   var canvas = document.getElementById('gl');
@@ -59,7 +60,7 @@
   }
   function resize() {
     if (!gl) return;
-    var k = Math.min(window.devicePixelRatio || 1, 1) * 0.5; // soft gradients: render at half resolution
+    var k = Math.min(window.devicePixelRatio || 1, 1) * (lite ? 0.28 : 0.5); // soft gradients: render at reduced resolution
     canvas.width = Math.max(2, Math.round(window.innerWidth * k));
     canvas.height = Math.max(2, Math.round(window.innerHeight * k));
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -70,7 +71,7 @@
     gl.uniform2f(U.uM, state.mx, 1 - state.my);
     gl.uniform1f(U.uT, time);
     gl.uniform1f(U.uDark, state.dark);
-    gl.uniform1f(U.uScroll, window.scrollY / window.innerHeight);
+    gl.uniform1f(U.uScroll, lite ? 0 : window.scrollY / window.innerHeight);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
   window.addEventListener('pointermove', function (e) {
@@ -111,7 +112,7 @@
   /* ---------- Smooth scroll ---------- */
   gsap.registerPlugin(ScrollTrigger);
   var lenis = null;
-  if (window.Lenis) {
+  if (window.Lenis && !lite) {
     lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95 });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
@@ -139,7 +140,9 @@
   document.addEventListener('ms:layout', function () { clearTimeout(refreshT); refreshT = setTimeout(function () { ScrollTrigger.refresh(); }, 60); });
 
   /* ---------- Render loop (background) ---------- */
+  var liteFrame = 0;
   gsap.ticker.add(function (time) {
+    if (lite && (liteFrame++ & 1)) return;   // draw every other frame (30fps)
     state.mx += (state.tx - state.mx) * 0.05;
     state.my += (state.ty - state.my) * 0.05;
     state.dark += (state.darkTarget - state.dark) * 0.045;
@@ -298,11 +301,11 @@
     var fv = document.querySelector('.fv-art');
     if (fv) {
       gsap.from(fv, { clipPath: 'inset(100% 0 0 0)', duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: fv, start: 'top 82%', once: true } });
-      gsap.fromTo('.fv-inner', { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: fv, start: 'top bottom', end: 'bottom top', scrub: true } });
+      if (!lite) gsap.fromTo('.fv-inner', { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: fv, start: 'top bottom', end: 'bottom top', scrub: true } });
     }
 
     /* Journal photos: parallax inside their frames */
-    document.querySelectorAll('.thumb').forEach(function (img) {
+    if (!lite) document.querySelectorAll('.thumb').forEach(function (img) {
       gsap.fromTo(img, { yPercent: 0 }, { yPercent: -13, ease: 'none', scrollTrigger: { trigger: img.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
 
