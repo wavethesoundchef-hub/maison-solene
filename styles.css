@@ -337,19 +337,19 @@ body.is-dark .fab{background:var(--rose);color:var(--plum)}
   .demo-note{max-width:none}
   .arrow-link:hover span{transform:translateX(8px)}
 
-  /* images own the left lane for the whole section and drift freely; all text lives in the right lane, so nothing can ever cover it */
-  .approach{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);grid-template-rows:auto auto 1fr;column-gap:clamp(32px,6vw,110px);align-items:start;padding:clamp(100px,12vw,180px) var(--pad) clamp(80px,9vw,140px)}
-  .approach>.mono{grid-column:2;grid-row:1}
-  .statement{grid-column:2;grid-row:2;font-size:clamp(2.2rem,3.6vw,3.9rem);max-width:none;margin:0}
-  .approach-art{grid-column:1;grid-row:1 / -1;align-self:stretch;position:relative;margin:0;min-height:clamp(980px,78vw,1280px)}
-  .float{position:absolute}
-  .f1{width:68%;left:0;top:140px}
-  .f2{width:44%;right:0;top:calc(140px + 36%)}
-  .f3{display:block;width:32%;aspect-ratio:4/5;left:12%;bottom:140px;border-radius:14px}
-  .pillars{grid-column:2;grid-row:3;grid-template-columns:1fr;gap:0;margin-top:clamp(50px,6vw,90px);position:relative}
-  .pillars li{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:20px;padding:20px 0;align-items:baseline}
-  .pillars li:last-child{border-bottom:1px solid var(--line)}
-  .pillars p{margin:0;max-width:34ch}
+  /* original scattered layout: photos float across the section at different speeds and pass BEHIND the writing */
+  .approach{padding:clamp(100px,16vw,220px) var(--pad) clamp(80px,10vw,160px);min-height:120vh}
+  .approach-art{display:contents}
+  .approach>.mono,.statement,.pillars{position:relative;z-index:2}
+  .statement{font-size:clamp(2.4rem,4.2vw,4.3rem);max-width:19em;margin-left:auto}
+  .float{position:absolute;z-index:1}
+  .f1{width:min(22vw,320px);left:var(--pad);top:clamp(240px,30vw,460px);margin:0}
+  .f2{width:min(15vw,220px);right:calc(var(--pad) + 6vw);top:clamp(420px,52vw,760px);margin:0}
+  .f3{display:block;width:min(12vw,180px);aspect-ratio:4/5;left:38vw;top:clamp(560px,70vw,980px);border-radius:14px;margin:0}
+  .pillars{grid-template-columns:repeat(3,1fr);margin-top:clamp(260px,30vw,460px);gap:clamp(24px,4vw,56px)}
+  .pillars li{display:block;padding:20px 0 0}
+  .pillars li:last-child{border-bottom:0}
+  .pillars p{margin:12px 0 0;max-width:26ch}
 
   .services{padding:clamp(80px,10vw,150px) 0}
   .cat-btn{padding:clamp(18px,2.4vw,34px) 0}

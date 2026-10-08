@@ -278,6 +278,19 @@
           gsap.fromTo(el, { y: s * 700 }, { y: -s * 700, ease: 'none', scrollTrigger: { trigger: '.approach', start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
           gsap.from(el, { clipPath: 'inset(100% 0 0 0)', duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
         });
+        /* When a photo drifts behind the writing it softens, so the text always stays easy to read */
+        var floats = Array.prototype.slice.call(document.querySelectorAll('.float'));
+        var texts = Array.prototype.slice.call(document.querySelectorAll('.approach > .mono, .statement .w, .pillars .mono, .pillars p')); // word-level boxes: photos only soften where they truly cross a line of text
+        function dim() {
+          var rects = texts.map(function (t) { return t.getBoundingClientRect(); });
+          floats.forEach(function (f) {
+            var b = f.getBoundingClientRect();
+            var over = rects.some(function (r) { return !(b.right < r.left - 12 || b.left > r.right + 12 || b.bottom < r.top - 12 || b.top > r.bottom + 12); });
+            var want = over ? 0.18 : 1;
+            if (f._want !== want) { f._want = want; gsap.to(f, { opacity: want, duration: 0.45, ease: 'power2.out', overwrite: 'auto' }); }
+          });
+        }
+        ScrollTrigger.create({ trigger: '.approach', start: 'top bottom', end: 'bottom top', onUpdate: dim, onRefresh: dim });
       }
     });
 
