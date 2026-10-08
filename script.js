@@ -149,7 +149,10 @@
     bar.classList.toggle('menu-open', open);
     toggle.setAttribute('aria-expanded', open);
     toggle.textContent = open ? 'close' : 'menu';
+    document.documentElement.classList.toggle('nav-open', open);
+    document.dispatchEvent(new CustomEvent('ms:nav', { detail: open }));
   }
+  document.addEventListener('ms:closenav', function () { setNav(false); });
   toggle.addEventListener('click', function () { setNav(!nav.classList.contains('open')); });
   nav.addEventListener('click', function (e) { if (e.target.closest('a')) setNav(false); });
   document.addEventListener('keydown', function (e) {

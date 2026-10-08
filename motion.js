@@ -91,6 +91,7 @@
   if (!canAnimate) {
     // Static, accessible fallback: one frame of the gradient, native scroll, instant theme switches.
     if (gl) draw(3);
+    var f0 = document.querySelector('.fab'); if (f0) f0.classList.add('on');
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) setTheme(e.target.dataset.theme); });
@@ -119,11 +120,19 @@
   function goTo(sel) {
     var t = sel === '#top' ? 0 : document.querySelector(sel);
     if (!t && t !== 0) return;
-    if (lenis) lenis.scrollTo(t, { duration: 1.6, easing: function (x) { return 1 - Math.pow(1 - x, 4); } });
+    if (lenis) lenis.scrollTo(t, { force: true, duration: 1.6, easing: function (x) { return 1 - Math.pow(1 - x, 4); } });
     else window.scrollTo({ top: t === 0 ? 0 : t.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' });
   }
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
-    a.addEventListener('click', function (e) { e.preventDefault(); goTo(a.getAttribute('href')); });
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var href = a.getAttribute('href');
+      if (document.documentElement.classList.contains('nav-open')) {
+        // close the phone menu first so scrolling is unlocked, then glide
+        document.dispatchEvent(new Event('ms:closenav'));
+        setTimeout(function () { goTo(href); }, 150);
+      } else goTo(href);
+    });
   });
   document.addEventListener('ms:goto', function (e) { goTo(e.detail); });
   var refreshT;
@@ -156,6 +165,23 @@
     }
   });
 
+  /* ---------- Mobile floating CTA + menu scroll lock ---------- */
+  var fab = document.querySelector('.fab');
+  if (fab) {
+    ScrollTrigger.create({
+      trigger: '.hero', start: 'bottom 60%', endTrigger: '#enquire', end: 'top 85%',
+      onToggle: function (self) { fab.classList.toggle('on', self.isActive); }
+    });
+    ScrollTrigger.create({
+      trigger: '#enquire', start: 'top 85%', end: 'bottom top',
+      onToggle: function (self) { fab.classList.toggle('off', self.isActive); }
+    });
+  }
+  document.addEventListener('ms:nav', function (e) {
+    if (!lenis) return;
+    if (e.detail) lenis.stop(); else lenis.start();
+  });
+
   /* ---------- Text splitting ---------- */
   function split(el) {
     (function walk(node) {
@@ -183,13 +209,15 @@
     heroLines.forEach(function (l) { heroWords = heroWords.concat(Array.prototype.slice.call(split(l))); });
     gsap.set(heroWords, { yPercent: 115 });
     heroLines.forEach(function (l) { l.classList.add('is-split'); });
-    gsap.set(['.hero-foot', '.demo-note', '.scroll-cue', '.bar'], { opacity: 0 });
-    gsap.set('.bar', { y: -24 });
+    var barItems = ['.bar > .brand', '.bar > .nav-toggle'];
+    if (window.innerWidth > 900) barItems.push('.bar > .nav'); // on phones the nav is a full-screen overlay: never touch its opacity
+    gsap.set(['.hero-foot', '.demo-note', '.scroll-cue'].concat(barItems), { opacity: 0 });
+    gsap.set(barItems, { y: -24 });
     var tl = gsap.timeline({ delay: 0.15 });
     tl.to(heroWords, { yPercent: 0, duration: 1.5, ease: 'expo.out', stagger: 0.1 })
       .to('.hero-foot', { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out' }, '-=0.9')
       .to(['.demo-note', '.scroll-cue'], { opacity: 1, duration: 1 }, '-=0.7')
-      .to('.bar', { opacity: 1, y: 0, duration: 1, ease: 'expo.out' }, '-=1.1');
+      .to(barItems, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.08 }, '-=1.1');
     gsap.fromTo('.hero-foot', { y: 30 }, { y: 0, duration: 1.1, ease: 'expo.out', delay: 1 });
     gsap.to('.hero h1', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
