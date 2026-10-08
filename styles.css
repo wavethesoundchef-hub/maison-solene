@@ -82,18 +82,31 @@ em{font-style:italic;font-weight:400;color:var(--accent);transition:color .7s}
 .bar.menu-open{color:var(--ivory)}
 .bar.menu-open::before{opacity:0}
 
-/* HERO */
-.hero{position:relative;min-height:100vh;min-height:100svh;padding:calc(110px + env(safe-area-inset-top)) var(--pad) 28px;display:flex;flex-direction:column;justify-content:space-between}
-.hero h1{display:flex;flex-direction:column;font-size:clamp(3.3rem,17.5vw,6rem);line-height:.92;letter-spacing:-.03em}
+/* HERO: the brand name is the headline */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hero{position:relative;min-height:100vh;min-height:100svh;padding:calc(96px + env(safe-area-inset-top)) var(--pad) 28px;display:flex;flex-direction:column;justify-content:space-between}
+.hero-kicker{color:var(--muted);max-width:26rem;line-height:1.7}
+.hero h1{display:flex;flex-direction:column;font-weight:400;font-size:clamp(5rem,32vw,11rem);line-height:.8;letter-spacing:-.045em;margin:4vh 0 0}
+.hero h1 em{font-weight:400}
 .hl{display:block}
 .hl-1{align-self:flex-start}
-.hl-2{align-self:flex-end;text-align:right}
-.hl-3{align-self:flex-start}
-.hero-foot{display:grid;gap:18px;margin:48px 0 40px}
-.lede{margin:0;font-size:1.05rem;color:var(--muted);max-width:30rem}
+.hl-2{align-self:flex-end;text-align:right;margin-top:.02em}
+.hero-foot{display:grid;gap:22px;margin:36px 0 44px}
+.tagline{margin:0;font-family:var(--display);font-weight:300;font-size:clamp(1.9rem,8vw,2.8rem);line-height:1.02;letter-spacing:-.02em}
+.hero-side{display:grid;gap:16px;justify-items:start}
+.lede{margin:0;font-size:1.02rem;color:var(--muted);max-width:30rem}
 .demo-note,.scroll-cue{position:absolute;bottom:14px;margin:0;font:400 .62rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .demo-note{left:var(--pad);max-width:62%}
 .scroll-cue{right:var(--pad);letter-spacing:.2em}
+
+/* opening curtain: announces the brand, once per visit */
+.intro{display:none}
+.js .intro{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:var(--plum);color:var(--ivory);text-align:center;padding:0 20px;animation:introSafety 0s 5s forwards}
+.intro-mark{width:44px;height:44px;border-radius:50%;background:var(--ivory);position:relative}
+.intro-mark::after{content:"";position:absolute;width:28px;height:28px;border-radius:50%;background:var(--rose);top:-6px;right:-12px;mix-blend-mode:multiply}
+.intro-name{font-family:var(--display);font-weight:300;font-size:clamp(3rem,15vw,7rem);line-height:1;letter-spacing:-.03em;overflow:hidden}
+.intro-sub{font:400 .68rem var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--rose-soft)}
+@keyframes introSafety{to{visibility:hidden;pointer-events:none}}
 
 /* APPROACH */
 .approach{position:relative;padding:90px var(--pad) 70px}
@@ -257,10 +270,11 @@ body.is-dark .fab{background:var(--rose);color:var(--plum)}
   .nav a:hover::after{transform:scaleX(1);transform-origin:left}
   .nav-cta{margin:0;font-style:normal;color:inherit}
 
-  .hero{padding:clamp(120px,16vh,170px) var(--pad) 40px}
-  .hero h1{font-size:clamp(6rem,12.2vw,12.5rem);line-height:.88;letter-spacing:-.035em}
-  .hl-3{padding-left:clamp(0px,12vw,200px)}
-  .hero-foot{grid-template-columns:minmax(0,34rem) auto;justify-content:space-between;align-items:end;gap:28px;margin:clamp(40px,8vh,90px) 0 34px}
+  .hero{padding:clamp(110px,15vh,150px) var(--pad) 40px}
+  .hero-kicker{max-width:none}
+  .hero h1{font-size:clamp(9rem,23.5vw,27rem);line-height:.78;letter-spacing:-.05em;margin-top:2vh}
+  .hero-foot{grid-template-columns:auto minmax(0,30rem);justify-content:space-between;align-items:end;gap:40px;margin:clamp(30px,6vh,70px) 0 34px}
+  .tagline{font-size:clamp(2.6rem,4.6vw,4.8rem)}
   .lede{font-size:clamp(1.05rem,1.3vw,1.25rem)}
   .demo-note,.scroll-cue{bottom:16px;font-size:.66rem}
   .demo-note{max-width:none}
@@ -324,6 +338,14 @@ body.is-dark .fab{background:var(--rose);color:var(--plum)}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .intro{display:none}
   .js [data-split="words"],.js .hl{visibility:visible}
   .js .fab{transform:translate(-50%,0);opacity:1}
 }
+/* hero letters: tall masks so tight line-height never clips ascenders/accents */
+.hl .w{padding:.28em .08em .24em 0;margin:-.28em -.08em -.24em 0}
+.intro-name{padding:.12em .1em}
+/* bold wordmark: heavy roman + medium italic */
+.hero h1{font-weight:700}
+.hero h1 em{font-weight:500}
+.intro-name{font-weight:700}

@@ -183,12 +183,12 @@
   });
 
   /* ---------- Text splitting ---------- */
-  function split(el) {
+  function split(el, chars) {
     (function walk(node) {
       Array.prototype.slice.call(node.childNodes).forEach(function (n) {
         if (n.nodeType === 3) {
           var frag = document.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(function (p) {
+          (chars ? n.textContent.split('') : n.textContent.split(/(\s+)/)).forEach(function (p) {
             if (!p) return;
             if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(' ')); return; }
             var w = document.createElement('span'); w.className = 'w';
@@ -203,22 +203,50 @@
   }
 
   function run() {
-    /* Hero intro */
+    /* Hero: the brand name, letter by letter */
     var heroLines = document.querySelectorAll('.hl');
-    var heroWords = [];
-    heroLines.forEach(function (l) { heroWords = heroWords.concat(Array.prototype.slice.call(split(l))); });
-    gsap.set(heroWords, { yPercent: 115 });
+    var heroChars = [];
+    heroLines.forEach(function (l) { heroChars = heroChars.concat(Array.prototype.slice.call(split(l, true))); });
+    gsap.set(heroChars, { yPercent: 115 });
     heroLines.forEach(function (l) { l.classList.add('is-split'); });
     var barItems = ['.bar > .brand', '.bar > .nav-toggle'];
     if (window.innerWidth > 900) barItems.push('.bar > .nav'); // on phones the nav is a full-screen overlay: never touch its opacity
-    gsap.set(['.hero-foot', '.demo-note', '.scroll-cue'].concat(barItems), { opacity: 0 });
+    var heroRest = ['.hero-kicker', '.tagline', '.hero-side', '.demo-note', '.scroll-cue'];
+    gsap.set(heroRest.concat(barItems), { opacity: 0 });
+    gsap.set(['.tagline', '.hero-side'], { y: 30 });
     gsap.set(barItems, { y: -24 });
-    var tl = gsap.timeline({ delay: 0.15 });
-    tl.to(heroWords, { yPercent: 0, duration: 1.5, ease: 'expo.out', stagger: 0.1 })
-      .to('.hero-foot', { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out' }, '-=0.9')
-      .to(['.demo-note', '.scroll-cue'], { opacity: 1, duration: 1 }, '-=0.7')
-      .to(barItems, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.08 }, '-=1.1');
-    gsap.fromTo('.hero-foot', { y: 30 }, { y: 0, duration: 1.1, ease: 'expo.out', delay: 1 });
+
+    function playHero() {
+      var tl = gsap.timeline();
+      tl.to(heroChars, { yPercent: 0, duration: 1.5, ease: 'expo.out', stagger: 0.07 })
+        .to('.hero-kicker', { opacity: 1, duration: 1 }, '-=1.2')
+        .to(['.tagline', '.hero-side'], { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.12 }, '-=1')
+        .to(['.demo-note', '.scroll-cue'], { opacity: 1, duration: 1 }, '-=0.7')
+        .to(barItems, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.08 }, '-=1.1');
+    }
+
+    /* Opening curtain: announces the brand once per visit, then lifts to reveal the hero */
+    var intro = document.getElementById('intro');
+    var seen = false;
+    try { seen = !!sessionStorage.getItem('ms-seen'); } catch (e) {}
+    if (intro && !seen) {
+      if (lenis) lenis.stop();
+      var itl = gsap.timeline({
+        onComplete: function () {
+          intro.remove();
+          if (lenis) lenis.start();
+          try { sessionStorage.setItem('ms-seen', '1'); } catch (e) {}
+        }
+      });
+      itl.fromTo('.intro-mark', { scale: 0 }, { scale: 1, duration: 0.9, ease: 'back.out(2.2)' })
+         .from('.intro-name', { yPercent: 110, duration: 1.1, ease: 'expo.out' }, '-=0.45')
+         .from('.intro-sub', { opacity: 0, y: 10, duration: 0.8, ease: 'power2.out' }, '-=0.6')
+         .to(intro, { yPercent: -100, duration: 1.1, ease: 'expo.inOut' }, '+=0.55')
+         .add(playHero, '-=0.55');
+    } else {
+      if (intro) intro.remove();
+      playHero();
+    }
     gsap.to('.hero h1', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
     /* Headings: masked word reveal */
