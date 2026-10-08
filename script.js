@@ -83,7 +83,7 @@
     li.querySelector('.blurb').textContent = cat.blurb;
     var th = li.querySelector('.cat-thumb');
     th.src = IMG(cat.art, 300);
-    th.alt = cat.name + ' (sample image)';
+    th.alt = cat.name + ' treatment';
 
     var ul = li.querySelector('.svc-list');
     cat.items.forEach(function (it) {

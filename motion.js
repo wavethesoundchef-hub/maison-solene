@@ -211,7 +211,7 @@
     heroLines.forEach(function (l) { l.classList.add('is-split'); });
     var barItems = ['.bar > .brand', '.bar > .nav-toggle'];
     if (window.innerWidth > 900) barItems.push('.bar > .nav'); // on phones the nav is a full-screen overlay: never touch its opacity
-    var heroRest = ['.hero-kicker', '.tagline', '.hero-side', '.demo-note', '.scroll-cue'];
+    var heroRest = ['.hero-kicker', '.tagline', '.hero-side', '.scroll-cue'];
     gsap.set(heroRest.concat(barItems), { opacity: 0 });
     gsap.set(['.tagline', '.hero-side'], { y: 30 });
     gsap.set(barItems, { y: -24 });
@@ -221,7 +221,7 @@
       tl.to(heroChars, { yPercent: 0, duration: 1.5, ease: 'expo.out', stagger: 0.07 })
         .to('.hero-kicker', { opacity: 1, duration: 1 }, '-=1.2')
         .to(['.tagline', '.hero-side'], { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.12 }, '-=1')
-        .to(['.demo-note', '.scroll-cue'], { opacity: 1, duration: 1 }, '-=0.7')
+        .to('.scroll-cue', { opacity: 1, duration: 1 }, '-=0.7')
         .to(barItems, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.08 }, '-=1.1');
     }
 
@@ -307,7 +307,7 @@
     });
 
     /* Soft rise for everything else */
-    var rise = '.head .mono,.sample-tag,.pillars li,.cat,.fv-lead,.fv-list li,.fv-price,.fv-copy .arrow-link,.enquire-note,#enquiry,.articles article .mono,.articles article h3,.articles article > p:last-child,.visit-grid > div,.site-footer > *';
+    var rise = '.head .mono,.pillars li,.cat,.fv-lead,.fv-list li,.fv-price,.fv-copy .arrow-link,.enquire-note,#enquiry,.articles article .mono,.articles article h3,.articles article > p:last-child,.visit-grid > div,.site-footer > *';
     gsap.set(rise, { opacity: 0, y: 36 });
     ScrollTrigger.batch(rise, {
       start: 'top 92%', once: true,
