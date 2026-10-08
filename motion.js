@@ -314,22 +314,22 @@
       onEnter: function (b) { gsap.to(b, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08 }); }
     });
 
-    /* Service preview photo. Desktop: stays while the cursor is on a category name and follows it; fades when the cursor leaves or the page scrolls.
-       Touch: pops in beside the tapped category, then fades out by itself. Always clears on scroll. */
+    /* Service preview photo. Driven by pointer type, not screen size, so it works on mice, touch screens and hybrids:
+       - mouse: appears when the cursor is on a category name, follows it, fades out when the cursor rests, leaves, or the page scrolls
+       - touch: pops in beside the tapped category, holds briefly, then fades by itself */
     var hi = document.getElementById('hoverImg');
     var himg = hi.querySelector('img');
     gsap.set(hi, { xPercent: -50, yPercent: -50, scale: 0.85, opacity: 0 });
+    var qx = gsap.quickTo(hi, 'x', { duration: 0.6, ease: 'power3' });
+    var qy = gsap.quickTo(hi, 'y', { duration: 0.6, ease: 'power3' });
     var urls = {};
     (window.MS_MENU || []).forEach(function (c) { urls[c.id] = c.art; var i = new Image(); i.src = c.art; });
     var menu = document.getElementById('menu');
-    var shown = false, idleT = null, hoverBtn = null, touchT = null;
+    var shown = false, idleT = null, touchT = null, hoverBtn = null, lastType = 'mouse';
 
-    function setPreviewSrc(btn) {
+    function showPreview(btn) {
       var src = urls[btn.closest('.cat').dataset.cat] || '';
       if (himg.getAttribute('src') !== src) himg.setAttribute('src', src);
-    }
-    function showPreview(btn) {
-      setPreviewSrc(btn);
       shown = true;
       gsap.to(hi, { opacity: 1, scale: 1, duration: 0.7, ease: 'expo.out', overwrite: 'auto' });
     }
@@ -339,32 +339,44 @@
       shown = false;
       gsap.to(hi, { opacity: 0, scale: 0.9, duration: 0.7, ease: 'power2.out', overwrite: 'auto' });
     }
+    function follow(x, y) {
+      var off = window.innerWidth > 900 ? 190 : 0;
+      qx(Math.min(x + off, window.innerWidth - 80)); qy(y);
+    }
     window.addEventListener('scroll', hidePreview, { passive: true });
     window.addEventListener('wheel', hidePreview, { passive: true });
 
-    if (fine) {
-      var qx = gsap.quickTo(hi, 'x', { duration: 0.6, ease: 'power3' });
-      var qy = gsap.quickTo(hi, 'y', { duration: 0.6, ease: 'power3' });
-      menu.querySelectorAll('.cat-btn').forEach(function (b) {
-        b.addEventListener('mouseenter', function () { hoverBtn = b; showPreview(b); });
-        b.addEventListener('mouseleave', function () { hoverBtn = null; hidePreview(); });
+    menu.querySelectorAll('.cat-btn').forEach(function (b) {
+      b.addEventListener('pointerdown', function (e) { lastType = e.pointerType || 'mouse'; });
+      b.addEventListener('pointerenter', function (e) {
+        if (e.pointerType === 'touch') return;
+        lastType = e.pointerType || 'mouse';
+        hoverBtn = b;
+        gsap.set(hi, { x: Math.min(e.clientX + (window.innerWidth > 900 ? 190 : 0), window.innerWidth - 80), y: e.clientY });
+        showPreview(b);
+        clearTimeout(idleT);
+        idleT = setTimeout(hidePreview, 1600);          // shows, then fades away by itself
       });
-      menu.addEventListener('mousemove', function (e) {
-        qx(e.clientX + 190); qy(e.clientY);
-        if (hoverBtn && !shown) showPreview(hoverBtn);   // cursor moved again after a scroll
+      b.addEventListener('pointerleave', function (e) {
+        if (e.pointerType === 'touch') return;
+        hoverBtn = null; hidePreview();
       });
-    } else {
-      menu.querySelectorAll('.cat-btn').forEach(function (b) {
-        b.addEventListener('click', function () {
-          clearTimeout(touchT);
-          if (b.getAttribute('aria-expanded') !== 'true') { hidePreview(); return; }  // closing a category
-          var r = b.getBoundingClientRect();
-          gsap.set(hi, { x: window.innerWidth * 0.72, y: Math.max(110, Math.min(window.innerHeight - 130, r.top + r.height / 2)) });
-          showPreview(b);
-          touchT = setTimeout(hidePreview, 2000);        // pop in, hold briefly, fade away
-        });
+      b.addEventListener('click', function () {
+        if (lastType !== 'touch') return;                // mouse clicks keep the hover behaviour
+        clearTimeout(touchT);
+        if (b.getAttribute('aria-expanded') !== 'true') { hidePreview(); return; }   // closing a category
+        var r = b.getBoundingClientRect();
+        gsap.set(hi, { x: window.innerWidth * 0.72, y: Math.max(110, Math.min(window.innerHeight - 130, r.top + r.height / 2)) });
+        showPreview(b);
+        touchT = setTimeout(hidePreview, 2000);          // pop in, hold briefly, fade away
       });
-    }
+    });
+    menu.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'touch') return;
+      follow(e.clientX, e.clientY);
+      if (hoverBtn && !shown) showPreview(hoverBtn);     // cursor moved again after it faded
+      if (hoverBtn) { clearTimeout(idleT); idleT = setTimeout(hidePreview, 1600); }
+    });
 
 
     /* Guest book: score counts up, bars fill, filtered reviews re-enter */
